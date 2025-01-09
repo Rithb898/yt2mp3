@@ -122,7 +122,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex flex-col items-center justify-center p-4 sm:p-6">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex flex-col items-center justify-center p-2 sm:p-6">
       <div className="w-full max-w-md bg-gray-800 rounded-xl shadow-2xl p-6 sm:p-8 space-y-8">
         {/* Logo/Icon Section */}
         <div className="flex justify-center">
@@ -235,7 +235,7 @@ function App() {
 
       {/* Footer */}
       <div className="mt-8 text-center text-gray-500 text-sm">
-        <p>Made with ❤️ for music lovers</p>
+        <p>Made with ❤️ by Rith for Music Lover</p>
       </div>
     </div>
   )
