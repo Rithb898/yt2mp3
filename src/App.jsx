@@ -18,27 +18,6 @@ function App() {
     }
   }, [videoUrl]);
 
-  // const extractVideoId = (url) => {
-  //   try {
-  //     // For youtu.be URLs
-  //     if (url.includes('youtu.be/')) {
-  //       const id = url.split('youtu.be/')[1].split('?')[0];
-  //       return id.length === 11 ? id : null;
-  //     }
-
-  //     // For youtube.com URLs
-  //     if (url.includes('youtube.com/')) {
-  //       const urlParams = new URLSearchParams(url.split('?')[1]);
-  //       const id = urlParams.get('v');
-  //       return id?.length === 11 ? id : null;
-  //     }
-
-  //     return null;
-  //   } catch (error) {
-  //     return null;
-  //   }
-  // }
-
   const extractVideoId = (url) => {
     const regex =
       /(?:https?:)?(?:\/\/)?(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/i;
