@@ -112,7 +112,7 @@ function App() {
   };
 
   return (
-    <div className='min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex flex-col items-center justify-center p-2 sm:p-6'>
+    <div className='min-h-screen bg-linear-to-b from-gray-900 to-gray-800 flex flex-col items-center justify-center p-2 sm:p-6'>
       <div className='w-full max-w-md bg-gray-800 rounded-xl shadow-2xl p-6 sm:p-8 space-y-8'>
         {/* Logo/Icon Section */}
         <div className='flex justify-center'>
@@ -181,7 +181,7 @@ function App() {
               value={videoUrl}
               onChange={(e) => setVideoUrl(e.target.value)}
               placeholder='Paste YouTube URL here'
-              className='w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 transition-all duration-200'
+              className='w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 transition-all duration-200'
             />
           </div>
           <button
