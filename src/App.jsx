@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { youtube } from 'btch-downloader';
 
 function App() {
   const [videoUrl, setVideoUrl] = useState("");
@@ -25,74 +26,87 @@ function App() {
     return match ? match[1] : null;
   };
 
-  const checkStatus = async (videoId, retries = 0) => {
-    if (retries > 30) {
-      setError("Conversion is taking too long. Please try again.");
-      setLoading(false);
-      setProgress("");
-      return;
-    }
+  // const checkStatus = async (videoId, retries = 0) => {
+  //   if (retries > 30) {
+  //     setError("Conversion is taking too long. Please try again.");
+  //     setLoading(false);
+  //     setProgress("");
+  //     return;
+  //   }
 
-    const options = {
-      method: "GET",
-      headers: {
-        "x-rapidapi-key": import.meta.env.VITE_RAPIDAPI_KEY,
-        "x-rapidapi-host": "youtube-mp36.p.rapidapi.com",
-      },
-    };
+  //   const options = {
+  //     method: "GET",
+  //     headers: {
+  //       "x-rapidapi-key": import.meta.env.VITE_RAPIDAPI_KEY,
+  //       "x-rapidapi-host": "youtube-mp36.p.rapidapi.com",
+  //     },
+  //   };
 
+  //   try {
+  //     const response = await fetch(
+  //       `https://youtube-mp36.p.rapidapi.com/dl?id=${videoId}`,
+  //       options,
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+
+  //     const result = await response.json();
+
+  //     switch (result.status) {
+  //       case "ok":
+  //         setTitle(result.title || "");
+  //         setConvertedUrl(result.link);
+  //         setLoading(false);
+  //         setProgress("");
+  //         break;
+
+  //       case "processing":
+  //       case "in_queue":
+  //         const progressMsg =
+  //           result.msg || `Converting${".".repeat(retries % 4)}`;
+  //         setProgress(progressMsg);
+  //         setTimeout(() => checkStatus(videoId, retries + 1), 1000);
+  //         break;
+
+  //       case "fail":
+  //         setError(result.msg || "Conversion failed. Please try again.");
+  //         setLoading(false);
+  //         setProgress("");
+  //         break;
+
+  //       default:
+  //         setError("Unknown status received. Please try again.");
+  //         setLoading(false);
+  //         setProgress("");
+  //     }
+  //   } catch (error) {
+  //     if (error.message.includes("404")) {
+  //       setError("MP3 link not accessible. Please try again.");
+  //     } else if (error.message.includes("429")) {
+  //       setError("Too many requests. Please try again later.");
+  //     } else {
+  //       setError("An error occurred. Please try again later.");
+  //     }
+  //     console.error("Conversion error:", error);
+  //     setLoading(false);
+  //     setProgress("");
+  //   }
+  // };
+
+  const downloadYt = async (url) => {
     try {
-      const response = await fetch(
-        `https://youtube-mp36.p.rapidapi.com/dl?id=${videoId}`,
-        options,
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await youtube(url);
+      if (!data || data.length === 0) {
+        throw new Error('No download URL found');
       }
-
-      const result = await response.json();
-
-      switch (result.status) {
-        case "ok":
-          setTitle(result.title || "");
-          setConvertedUrl(result.link);
-          setLoading(false);
-          setProgress("");
-          break;
-
-        case "processing":
-        case "in_queue":
-          const progressMsg =
-            result.msg || `Converting${".".repeat(retries % 4)}`;
-          setProgress(progressMsg);
-          setTimeout(() => checkStatus(videoId, retries + 1), 1000);
-          break;
-
-        case "fail":
-          setError(result.msg || "Conversion failed. Please try again.");
-          setLoading(false);
-          setProgress("");
-          break;
-
-        default:
-          setError("Unknown status received. Please try again.");
-          setLoading(false);
-          setProgress("");
-      }
+      console.log('Download URL:', data);
+      return data
     } catch (error) {
-      if (error.message.includes("404")) {
-        setError("MP3 link not accessible. Please try again.");
-      } else if (error.message.includes("429")) {
-        setError("Too many requests. Please try again later.");
-      } else {
-        setError("An error occurred. Please try again later.");
-      }
-      console.error("Conversion error:", error);
-      setLoading(false);
-      setProgress("");
+      console.error("Error", error.message)
     }
-  };
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,7 +122,12 @@ function App() {
       return;
     }
 
-    checkStatus(videoId);
+    // checkStatus(videoId);
+    const data = await downloadYt(videoUrl)
+    setConvertedUrl(data.mp3)
+    setTitle(data.title)
+    setLoading(false)
+    
   };
 
   return (
